@@ -1,7 +1,7 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  */
 const { join } = require('path');
 const { writeFileSync } = require('fs');
@@ -19,7 +19,7 @@ const DIST_PATH = 'build/';
 const PROJECT_NAME = 'cpf-validate';
 const packageFile = require('./package.json');
 const TESTS_PATH = './test/**/*.test.js';
-const ROUTES_API = '.src/routes';
+const ROUTES_API = './src/routes';
 const DIST_DOCS = './docs';
 
 gulp.task('clean', () => {
@@ -61,7 +61,7 @@ gulp.task('build',
     )
 );
 
-// =============================================== TEST ====================================================
+// =============================================== DOC ====================================================
 
 gulp.task('set-version-api', done => {
     const apidocCrawler = {

@@ -2,7 +2,7 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  */
 const moment = require('moment-timezone');
 const crypto = require('crypto');
@@ -55,6 +55,23 @@ class Utils {
                 cb(err);
             }
         }));
+    }
+
+    static authenticationIndex(req, res, next) {
+        const token = (req.headers.authorization || '').split(' ')[1] || '';
+        if (!token || token !== 'YWRtaW46YWRtaW5wd2Q=') {
+            res.set('WWW-Authenticate', 'Basic realm="Authentication needed"');
+            res.status(401).send('Não autenticado');
+        } else {
+            next();
+        }
+    }
+
+    static formatBytes(a, b) {
+        if (!a) return;
+        if (0 == a) return '0 Bytes';
+        const c = 1024, d = b || 2, e = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'], f = Math.floor(Math.log(a) / Math.log(c));
+        return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
     }
 
     /**

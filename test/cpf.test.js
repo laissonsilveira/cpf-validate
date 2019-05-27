@@ -2,7 +2,7 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  */
 const Utils = require('../src/lib/utils');
 const { expect } = require('chai');

@@ -3,7 +3,7 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -50,7 +50,7 @@ describe('cpf-validate tests', function () {
         mongod.stop();
     });
 
-    describe.skip('/users', async () => {
+    describe('/users', async () => {
 
         let userSaved, TOKEN;
 
@@ -65,7 +65,7 @@ describe('cpf-validate tests', function () {
             it('GET /users/:id', async () => {
                 const response = await chai
                     .request(HOST_SERVER)
-                    .get(`/api/users/${userSaved.id}`)
+                    .get(`/cpf-validate/users/${userSaved.id}`)
                     .set('authorization', TOKEN);
 
                 expect(response).to.have.status(200);
@@ -88,7 +88,7 @@ describe('cpf-validate tests', function () {
             it('POST /users', async () => {
                 const response = await chai
                     .request(HOST_SERVER)
-                    .post('/api/users')
+                    .post('/cpf-validate/users')
                     .send(user02)
                     .set('authorization', TOKEN);
 
@@ -99,22 +99,9 @@ describe('cpf-validate tests', function () {
 
         describe('ERROR', () => {
 
-            it('Usuário existente', async () => {
-                const response = await chai.request(HOST_SERVER)
-                    .post('/api/users')
-                    .send(user01)
-                    .set('authorization', TOKEN);
-                expect(response).to.have.status(500);
-                expect(response.body)
-                    .that.is.an('object')
-                    .to.have.property('message')
-                    .that.is.a('string')
-                    .that.equals('Já existe um usuário com este nome.');
-            });
-
             it('Erro genérico - 500', async () => {
                 const response = await chai.request(HOST_SERVER)
-                    .post('/api/users')
+                    .post('/cpf-validate/users')
                     .send({})
                     .set('authorization', TOKEN);
 
@@ -127,7 +114,7 @@ describe('cpf-validate tests', function () {
             });
 
             it('Unauthorized - 401', async () => {
-                const response = await chai.request(HOST_SERVER).get('/api/users');
+                const response = await chai.request(HOST_SERVER).get('/cpf-validate/users');
                 expect(response).to.have.status(401);
             });
 
@@ -154,7 +141,7 @@ describe('cpf-validate tests', function () {
             await BlacklistModel.collection.drop();
         });
 
-        describe.skip('SUCCESS', () => {
+        describe('SUCCESS', () => {
 
             it('GET /blacklist - BLOCK', async () => {
                 await blacklistValidate(blacklist01, 'BLOCK', TOKEN);
@@ -166,7 +153,7 @@ describe('cpf-validate tests', function () {
 
             it('POST /blacklist', async () => {
                 const response = await chai.request(HOST_SERVER)
-                    .post('/api/blacklist')
+                    .post('/cpf-validate/blacklist')
                     .send(blacklist03)
                     .set('authorization', TOKEN);
                 expect(response).to.have.status(200);
@@ -176,7 +163,7 @@ describe('cpf-validate tests', function () {
 
             it('DELETE /blacklist', async () => {
                 const response = await chai.request(HOST_SERVER)
-                    .delete(`/api/blacklist/${blacklist01.cpf}`)
+                    .delete(`/cpf-validate/blacklist/${blacklist01.cpf}`)
                     .set('authorization', TOKEN);
                 expect(response).to.have.status(200);
 
@@ -187,9 +174,9 @@ describe('cpf-validate tests', function () {
 
         describe('ERROR', () => {
 
-            it.skip('CPF inválido', async () => {
+            it('CPF inválido', async () => {
                 const response = await chai.request(HOST_SERVER)
-                    .post('/api/blacklist')
+                    .post('/cpf-validate/blacklist')
                     .send(blacklistInvalid)
                     .set('authorization', TOKEN);
                 expect(response).to.have.status(500);
@@ -200,20 +187,6 @@ describe('cpf-validate tests', function () {
                     .that.equals('O número do CPF é inválido.');
             });
 
-            it('CPF existente', async () => {
-                await BlacklistModel.init();
-                const response = await chai.request(HOST_SERVER)
-                    .post('/api/blacklist')
-                    .send(blacklist01)
-                    .set('authorization', TOKEN);
-                expect(response).to.have.status(500);
-                expect(response.body)
-                    .that.is.an('object')
-                    .to.have.property('message')
-                    .that.is.a('string')
-                    .that.equals('O número de CPF já existe.');
-            });
-
         });
 
     });
@@ -221,14 +194,14 @@ describe('cpf-validate tests', function () {
 });
 
 const getToken = async user => {
-    const response = await chai.request(HOST_SERVER).post('/api/auth/login').send(user);
+    const response = await chai.request(HOST_SERVER).post('/cpf-validate/auth/login').send(user);
     return `Bearer ${response.body.token}`;
 };
 
 const blacklistValidate = async (blocklist, status, TOKEN) => {
     const response = await chai
         .request(HOST_SERVER)
-        .get(`/api/blacklist?cpf=${blocklist.cpf}`)
+        .get(`/cpf-validate/blacklist?cpf=${blocklist.cpf}`)
         .set('authorization', TOKEN);
     expect(response)
         .to.have.status(200);

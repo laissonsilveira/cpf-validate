@@ -2,7 +2,7 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  *
  * API - /users
  */
@@ -12,14 +12,14 @@ const UserCtrl = require('../controllers/UsersCtrl');
 const LOGGER = require('../lib/logger');
 
 /**
- * @api {get} http://localhost:3000/api/users Lista Usuários
+ * @api {get} http://localhost:3000/cpf-validate/users Lista Usuários
  * @apiDescription Lista os usuários
  * @apiName GetUsers
- * @apiGroup cpf-validate
+ * @apiGroup User
  * @apiVersion 1.0.0
  *
  * @apiExample {curl} Example usage:
- *  curl -X GET 'http://localhost:3000/api/users' \
+ *  curl -X GET 'http://localhost:3000/cpf-validate/users' \
 *    -H 'Authorization: Bearer CJstk7cypEDwaFW4...' \
  *
  * @apiSuccess {String} id Identificador único do cliente
@@ -35,7 +35,9 @@ const LOGGER = require('../lib/logger');
  *   }
  * ]
  *
- * @apiUse Unauthorized
+ * @apiError {String} Unauthorized
+ * @apiErrorExample {json} Error-Response
+ * HTTP/1.1 401 Unauthorized
  */
 router.get('/', async (req, res, next) => {
     LOGGER.info('[API-USERS] Searching all users');
@@ -48,14 +50,14 @@ router.get('/', async (req, res, next) => {
 });
 
 /**
- * @api {get} http://localhost:3000/api/users/:id Busca Usuário
+ * @api {get} http://localhost:3000/cpf-validate/users/:id Busca Usuário
  * @apiDescription Busca usuário pelo ID
  * @apiName GetUsersID
- * @apiGroup cpf-validate
+ * @apiGroup User
  * @apiVersion 1.0.0
  *
  * @apiExample {curl} Example usage:
- *  curl -X GET 'http://localhost:3000/api/users/5cdb4ee81fe76800228cfa5b' \
+ *  curl -X GET 'http://localhost:3000/cpf-validate/users/5cdb4ee81fe76800228cfa5b' \
  *    -H 'Authorization: Bearer CJstk7cypEDwaFW4...'
  *
  * @apiParam {String} id Identificador único do cliente
@@ -79,7 +81,9 @@ router.get('/', async (req, res, next) => {
  *     "message": "ID do usuário (5ce899508f8d4d5f929c11a) inválido"
  * }
  *
- * @apiUse Unauthorized
+ * @apiError {String} Unauthorized
+ * @apiErrorExample {json} Error-Response
+ * HTTP/1.1 401 Unauthorized
  */
 router.get('/:id', async (req, res, next) => {
     const userID = req.params.id;
@@ -93,15 +97,15 @@ router.get('/:id', async (req, res, next) => {
 });
 
 /**
- * @api {post} http://localhost:3000/api/users Adiciona Usuário
+ * @api {post} http://localhost:3000/cpf-validate/users Adiciona Usuário
  * @apiDescription Adiciona um novo usuário
  * @apiName PostUsers
- * @apiGroup cpf-validate
+ * @apiGroup User
  * @apiVersion 1.0.0
  *
  * @apiExample {curl} Example usage:
  * curl -X POST \
- *   'http://localhost:3000/api/users' \
+ *   'http://localhost:3000/cpf-validate/users' \
  *   -H 'Authorization: Bearer CJstk7cypEDwaFW4...' \
  *   -H 'Content-Type: application/json' \
  *   -d '{
@@ -131,7 +135,9 @@ router.get('/:id', async (req, res, next) => {
  *     "message": "Já existe um usuário com este nome."
  * }
  *
- * @apiUse Unauthorized
+ * @apiError {String} Unauthorized
+ * @apiErrorExample {json} Error-Response
+ * HTTP/1.1 401 Unauthorized
  */
 router.post('/', async (req, res, next) => {
     const user = req.body;

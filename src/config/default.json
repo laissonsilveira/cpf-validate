@@ -29,5 +29,5 @@
         "directory": "/tmp/cpf-validate/"
     },
     "secretKey": "Y3BmLXZhbGlkYXRl",
-    "numberClusters": 4
+    "numberClusters": 1
 }

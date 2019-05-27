@@ -1,0 +1,32 @@
+<nav class="navbar fixed-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+        <i class="text-info fas fa-id-card" aria-hidden="true"></i>
+    </a>
+    <h5><strong class="navbar-text text-light">CPF Validate</strong></h5>
+    <button class="btn btn-outline-info my-2 my-sm-0" ng-click="onLogout()">Sair</button>
+</nav>
+<div class="container" style="padding-top: 80px">
+    <div class="jumbotron">
+        <h2 class="mx-auto">Validação de CPF - Bloqueio</h2>
+        <hr>
+        <form class="form-inline">
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="inputCPF" placeholder="CPF" ng-model="cpf"
+                    mask="999.999.999-99" autofocus>
+            </div>
+            <button type="submit" class="btn btn-info mb-2" ng-click="onValidate(cpf)">Consultar</button>
+            <div ng-show="status" class="mx-sm-3">
+                <div ng-show="status === 'FREE'" ng-hide="status === 'BLOCK'">
+                    <i class="text-info fas fa-thumbs-up" aria-hidden="true"></i>
+                    CPF OK, deseja bloquear?
+                    <button type="submit" class="btn btn-outline-info mb-2" ng-click="onSave(cpf)">Sim</button>
+                </div>
+                <div ng-show="status === 'BLOCK'" ng-hide="status === 'FREE'">
+                    <i class="text-danger fas fa-thumbs-down" aria-hidden="true"></i>
+                    CPF Bloqueado, deseja remover?
+                    <button type="submit" class="btn btn-outline-info mb-2" ng-click="onDelete(cpf)">Sim</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

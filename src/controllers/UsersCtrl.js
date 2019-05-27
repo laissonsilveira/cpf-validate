@@ -2,7 +2,7 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  */
 const mongoose = require('mongoose');
 const UsersModel = mongoose.model('Users');

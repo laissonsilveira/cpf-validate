@@ -1,0 +1,25 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <form ng-submit="login(auth)">
+                <div class="form-group text-center">
+                    <h3 class="form-text mb-3 font-weight-bold" style="color: #0b3b64;">CPF Validate</h3>
+                </div>
+                <div class="form-group">
+                    <input id="username" type="text" class="form-control" ng-model="auth.username" placeholder="Usuário"
+                        required autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" ng-model="auth.password" placeholder="Senha"
+                        required>
+                </div>
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" ng-model="remember">&nbsp;Continuar conectado
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-lg btn-info btn-block">Entrar</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -2,33 +2,9 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  *
  * API - /blacklist
- *
- * @apiDefine CPF-NaN
- * @apiError {String} message CPF não numérico
- * @apiErrorExample {json} Error-Response
- * HTTP/1.1 500 Internal Server Error
- * {
- *     "message": "O número do CPF não é numérico."
- * }
- *
- * @apiDefine CPF-invalid
- * @apiError {String} message CPF inválido
- * @apiErrorExample {json} Error-Response
- * HTTP/1.1 500 Internal Server Error
- * {
- *     "message": "O número do CPF é inválido."
- * }
- *
- * @apiDefine CPF-required
- * @apiError {String} message CPF não informado
- * @apiErrorExample {json} Error-Response
- * HTTP/1.1 500 Internal Server Error
- * {
- *     "message": "O número do CPF não foi informado."
- * }
  */
 const express = require('express');
 const router = express.Router();
@@ -36,14 +12,14 @@ const LOGGER = require('../lib/logger');
 const BlaclistCtrl = require('../controllers/BlacklistCtrl');
 
 /**
- * @api {get} http://localhost:3000/api/blacklist Consulta CPF
+ * @api {get} http://localhost:3000/cpf-validate/blacklist Consulta CPF
  * @apiDescription Consulta CPF na lista
  * @apiName GetCPF
- * @apiGroup cpf-validate
+ * @apiGroup Blacklist
  * @apiVersion 1.0.0
  *
  * @apiExample {curl} Example usage:
- *  curl -X GET 'https://localhost/api/blacklist?cpf=05523549983' \
+ *  curl -X GET 'https://localhost/cpf-validate/blacklist?cpf=05523549983' \
  *      -H 'Authorization: Bearer skdlkjlkje....'
  *
  * @apiParam {String} cpf Número do CPF (Com ou sem separadores)
@@ -54,10 +30,30 @@ const BlaclistCtrl = require('../controllers/BlacklistCtrl');
  *  status: 'FREE'
  * }
  *
- * @apiUse Unauthorized
- * @apiUse CPF-NaN
- * @apiUse CPF-invalid
- * @apiUse CPF-required
+ * @apiError {String} Unauthorized
+ * @apiErrorExample {json} Unauthorized
+ * HTTP/1.1 401 Unauthorized
+ *
+ * @apiError {String} message Mensagem de erro
+ * @apiErrorExample {json} CPF não numérico
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *     "message": "O número do CPF não é numérico."
+ * }
+ *
+ * @apiError {String} message Mensagem de erro
+ * @apiErrorExample {json} CPF inválido
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *     "message": "O número do CPF é inválido."
+ * }
+ *
+ * @apiError {String} message Mensagem de erro
+ * @apiErrorExample {json} CPF não informado
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *     "message": "O número do CPF não foi informado."
+ * }
  */
 router.get('/', async (req, res, next) => {
     try {
@@ -74,15 +70,15 @@ router.get('/', async (req, res, next) => {
 });
 
 /**
- * @api {post} http://localhost:3000/api/blacklist Adiciona CPF
+ * @api {post} http://localhost:3000/cpf-validate/blacklist Adiciona CPF
  * @apiDescription Adiciona CPF na lista
  * @apiName PostCPF
- * @apiGroup cpf-validate
+ * @apiGroup Blacklist
  * @apiVersion 1.0.0
  *
  * @apiExample {curl} Example usage:
  *  curl -X POST \
- *    'http://localhost:3000/api/blacklist' \
+ *    'http://localhost:3000/cpf-validate/blacklist' \
  *    -H 'Authorization: Bearer skdlkjlkje....'
  *    -d '{
  *       	"cpf": "05523549983",
@@ -91,17 +87,37 @@ router.get('/', async (req, res, next) => {
  * @apiSuccessExample Success-Response
  * HTTP/1.1 200 OK
  *
- * @apiError {String} message CPF existente
- * @apiErrorExample {json} Error-Response
+ * @apiError {String} message Mensagem de erro
+ * @apiErrorExample {json} CPF existente
  * HTTP/1.1 500 Internal Server Error
  * {
  *     "message": "O número de CPF já existe."
  * }
  *
- * @apiUse Unauthorized
- * @apiUse CPF-NaN
- * @apiUse CPF-invalid
- * @apiUse CPF-required
+ * @apiError {String} Unauthorized
+ * @apiErrorExample {json} Unauthorized
+ * HTTP/1.1 401 Unauthorized
+ *
+ * @apiError {String} message Mensagem de erro
+ * @apiErrorExample {json} CPF não numérico
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *     "message": "O número do CPF não é numérico."
+ * }
+ *
+ * @apiError {String} message Mensagem de erro
+ * @apiErrorExample {json} CPF inválido
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *     "message": "O número do CPF é inválido."
+ * }
+ *
+ * @apiError {String} message Mensagem de erro
+ * @apiErrorExample {json} CPF não informado
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *     "message": "O número do CPF não foi informado."
+ * }
  */
 router.post('/', async (req, res, next) => {
     LOGGER.info('[API-BLACKLIST] Adding CPF to blacklist');
@@ -118,21 +134,23 @@ router.post('/', async (req, res, next) => {
 });
 
 /**
- * @api {delete} http://localhost:3000/api/blacklist Remove CPF
+ * @api {delete} http://localhost:3000/cpf-validate/blacklist Remove CPF
  * @apiDescription Remove CPF da lista
  * @apiName DeleteCPF
- * @apiGroup cpf-validate
+ * @apiGroup Blacklist
  * @apiVersion 1.0.0
  *
  * @apiExample {curl} Example usage:
  *  curl -X DELETE \
- *    'http://localhost:3000/api/blacklist/05523549983' \
+ *    'http://localhost:3000/cpf-validate/blacklist/05523549983' \
  *    -H 'Authorization: Bearer skdlkjlkje....'
  *
  * @apiSuccessExample Success-Response
  * HTTP/1.1 200 OK
  *
- * @apiUse Unauthorized
+ * @apiError {String} Unauthorized
+ * @apiErrorExample {json} Error-Response
+ * HTTP/1.1 401 Unauthorized
  */
 router.delete('/:cpf', async (req, res, next) => {
     LOGGER.info('[API-BLACKLIST] Removing CPF from blacklist');

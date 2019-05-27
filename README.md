@@ -1,7 +1,23 @@
-
 # cpf-validate
 
-Servidor de mensageria
+API para validação de CPF
+
+![cpf-validate-app](docs/images/image02.png)
+
+Assim que iniciado a aplicação a mesma fica disponível no endereço http://localhost:<PORT>/cpf-validate
+
+> Porta default é 3000
+
+Para consulta do CPF é necessário está autenticado
+
+![cpf-validate-auth](docs/images/image01.png)
+
+> Usuário/Senha de administrador> `admin/adminpwd`
+
+## Para desenvolvimento e testes
+
+- Instalar dependências: `MONGOMS_VERSION=4.0.4 npm install`
+  - Variável MONGOMS_VERSION é necessária para escolha da versão do mock do MongoDB que será instalado em cache
 
 ## Documentação API
 
@@ -12,7 +28,7 @@ Servidor de mensageria
 
 ## Dependências
 
-- Node.js >= 10
+- Node.js >= 8
 - MongoDB >= 4
 - Docker >= 18
 
@@ -21,50 +37,53 @@ Servidor de mensageria
 ### Build da imagem
 
 Caso a imagem ainda não esteja hospedada
+
 - `docker build --rm -f "Dockerfile" -t cpf-validate:latest .`
 
-### Executando aplicação
+### Executando aplicação (Docker)
 
 - Configurar arquivo `.env` com os dados de conexão com banco e quantidade de cluster para servidor da API
-- Mapear volume do database do containe Mongo
-  - Não foi feito configurações de cluster do banco por falta de tempo
-- Mapear volume do log do container API
+- Mapear volume do database do containe Mongo (por padrão está local em `./volumes`)
+- Mapear volume do log do container API (por padrão está local em `./volumes`)
   - Outras configurações podem ser alteradas no arquivo `config/default.json`
 - Executar comando `docker-compose up`
   - O comando acima irá subir 2 container
     - Database: MongoDB 4.0.4
-    - API: Node.js 10.15.3
+    - API: Node.js 8.16.0
 
 ## Build sem Docker
 
+### Dev
+
+- Executar comando `npm run dev` e acessar endereço http://localhost:3000/cpf-validate
+
 ### NodeJS / PM2
 
-- Instalar Node.js 10.15.3
+- Instalar Node.js 8.16.0
 - Instalar PM2: `npm install pm2 -g` (Mais detalhes aqui -> http://pm2.keymetrics.io/)
 - Configurar PM2 para iniciar junto ao sistema: `pm2 startup`
 
 ### Mongo
 
 - Instalar MongoDB 4.0.4
-- Ativar autenticação automática do serviço em vim `/etc/mongodb.conf`:
-  `security:
-    authorization: enabled`
-- Acessar mongo: mongo --host <HOSTNAME> --port <PORT> cpf-validate -u 'api_user' -p 'api_pwd' --authenticationDatabase 'admin'
-- Criar usuários do banco
-  `use admin`
-  `db.createUser({user:"USUARIO_ROOT",pwd:"SENHA_ROOT", roles:[{role:"root",db:"admin"}]});`
-- Os inseridos devem ser configurados no arquivo de configuração (`config/default.json`)
-  `"database": {
-    ...
-    "user": "USUARIO_ROOT",
-    "pass": "SENHA_ROOT"
-    ...
-  }`
+- Ativar autenticação automática do serviço em `/etc/mongodb.conf`:
+  ```
+  security:
+    authorization: enabled
+  ```
+- Acessar mongo: mongo --host <HOSTNAME> --port <PORT> cpf-validate -u '<USER' -p '<PWD>' --authenticationDatabase 'admin'
+- Por padrão é criado um usuário de sistema `api_user` com a senha `user_pwd`
+    Esse usuário deve ser configurado no arquivo de configuração (`config/default.json`)
+    `"database": {
+        ...
+        "user": "USUARIO_ROOT",
+        "pass": "SENHA_ROOT"
+        ...
+    }`
+- Por padrão é criado um usuário de api `admin` com a senha `adminpwd` para acesso inicial
 
 ### Testes
 
-- Instalar dependências: `MONGOMS_VERSION=4.0.4 npm install`
-  - Variável MONGOMS_VERSION é necessária para escolha da versão do mock do MongoDB que será instalado em cache
 - Os testes são executados usando `mocha`
 - Para executar os testes: `npm test`
 - Um relatório em HTML estará disponível em `test/covarage/mochawesome.html`

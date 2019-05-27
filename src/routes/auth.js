@@ -2,13 +2,9 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  *
  * API /auth
- * @apiDefine Unauthorized
- * @apiError {String} Unauthorized
- * @apiErrorExample {json} Error-Response
- * HTTP/1.1 401 Unauthorized
  */
 const express = require('express');
 const router = express.Router();
@@ -19,15 +15,15 @@ const passport = require('passport');
 const LOGGER = require('../lib/logger');
 
 /**
- * @api {post} http://localhost:3000/api/auth/login Autenticação
+ * @api {post} http://localhost:3000/cpf-validate/auth/login Autenticação
  * @apiDescription Authenticação do usuário
  * @apiName login
- * @apiGroup cpf-validate
+ * @apiGroup Auth
  * @apiVersion 1.0.0
  *
  * @apiExample {curl} Example usage:
  *  curl -X POST \
- *    'http://localhost:3000/api/auth/login' \
+ *    'http://localhost:3000/cpf-validate/auth/login' \
  *      -H 'Content-Type: application/json' \
  *      -d '{
  *      	"username": "usuario",

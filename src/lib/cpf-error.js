@@ -2,7 +2,7 @@
 /**
  * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
  *
- * Created on 23/05/2018
+ * Created on 23/05/2019
  */
 class CPFError extends Error {
     constructor(message = 'Erro interno no servidor. Contate o administrador.', status = 500) {
