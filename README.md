@@ -72,7 +72,7 @@ Caso a imagem ainda não esteja hospedada
     authorization: enabled
   ```
 - Acessar mongo: mongo --host HOSTNAME --port PORT cpf-validate -u 'USER' -p 'PWD' --authenticationDatabase 'admin'
-- Por padrão é criado um usuário de sistema `api_user` com a senha `user_pwd`
+- Por padrão é criado um usuário de sistema `api_user` com a senha `user_pwd`
     Esse usuário deve ser configurado no arquivo de configuração (`config/default.json`)
     ```json
     "database": {
@@ -82,7 +82,7 @@ Caso a imagem ainda não esteja hospedada
         ...
     }
     ```
-- Por padrão é criado um usuário de api `admin` com a senha `adminpwd` para acesso inicial
+- Por padrão é criado um usuário de api `admin` com a senha `adminpwd` para acesso inicial
 
 ### Testes
 
