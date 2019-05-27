@@ -14,7 +14,7 @@ Para consulta do CPF é necessário autenticação
 
 > Usuário/Senha de administrador: `admin/adminpwd`
 
-Ao acessar página de suporte é possível verificar o status do serviço
+Ao acessar página de suporte (http://localhost:3000/cpf-validate/suporte/) é possível verificar o status do serviço
 
 ![cpf-validate-suporte](docs/images/image03.png)
 

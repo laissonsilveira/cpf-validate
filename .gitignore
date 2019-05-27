@@ -34,5 +34,4 @@ coverage
 npm-debug.log
 build/*
 download
-cpf-validate.tgz
-volumes/db/data
+volumes
