@@ -6,12 +6,23 @@
  */
 const mongoose = require('mongoose');
 const BlacklistModel = mongoose.model('Blacklist');
+const StatusModel = mongoose.model('Status');
 const CPFError = require('../lib/cpf-error');
 const Utils = require('../lib/utils');
 
-class BlaclistCtrl {
+class BlacklistCtrl {
+
+    static async countQueryCPF() {
+        const res = await StatusModel.findOne();
+        return res && res.totalQuery || 0;
+    }
+    
+    static async count() {
+        return await BlacklistModel.find().countDocuments();
+    }
 
     static async findBy(cpf) {
+        await StatusModel.update({}, { $inc: { totalQuery: 1 } });
         return await BlacklistModel.findOne({ cpf }).lean();
     }
 
@@ -31,4 +42,4 @@ class BlaclistCtrl {
 
 }
 
-module.exports = BlaclistCtrl;
+module.exports = BlacklistCtrl;
