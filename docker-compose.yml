@@ -1,0 +1,42 @@
+version: "2"
+services:
+  database:
+    container_name: database_cpf_validate
+    image: mongo:4.0
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$BD_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$BD_PWD
+    volumes:
+      - ./volumes/db/data/:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      localnet:
+        ipv4_address: $BD_IP
+  api:
+    container_name: cpf_validate
+    image: cpf-validate:latest
+    restart: always
+    environment:
+      BD_IP: $BD_IP
+      BD_PORT: $BD_PORT
+      NODE_ENV: production
+      NUMBER_CLUSTERS: $NUMBER_CLUSTERS
+    links:
+      - database
+    depends_on:
+      - database
+    volumes:
+      - ./volumes/logs/:/tmp/cpf-validate/
+    ports:
+      - 3000:3000
+    networks:
+      localnet:
+        ipv4_address: 172.30.1.3
+networks:
+  localnet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/16

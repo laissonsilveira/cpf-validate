@@ -1,0 +1,21 @@
+{
+    "server": {
+        "port": "5555"
+    },
+    "database": {
+        "host": "localhost",
+        "port": 27017,
+        "dbName": "cpf-validate-test",
+        "isDebug": true,
+        "max_row": 10000
+    },
+    "log": {
+        "console": {
+            "level": "debug",
+            "json": false,
+            "colorize": true
+        }
+    },
+    "secretKey": "Y3BmLXZhbGlkYXRl",
+    "numberClusters": 1
+}

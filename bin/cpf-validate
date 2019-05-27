@@ -1,0 +1,99 @@
+#!/usr/bin/env node
+/**
+ * @autor Laisson R. Silveira<laisson.r.silveira@gmail.com>
+ *
+ * Created on 23/05/2018
+ */
+if (!global.__CONFIG) global.__CONFIG = require('../src/config');
+const { PORT, NODE_ENV, NUMBER_CLUSTERS } = process.env;
+if (!NODE_ENV) process.env.NODE_ENV = 'development';
+
+const LOGGER = require('../src/lib/logger');
+const http = require('http');
+const port = normalizePort(PORT || __CONFIG.server.port || 9090);
+const cluster = require('cluster');
+let clusterCount = require('os').cpus().length;
+
+(async () => {
+    try {
+        await require('../src/lib/db').connect();
+        if (cluster.isMaster) {
+            LOGGER.info('...::: CPF Validate API :::...');
+            LOGGER.info('Execute mode: [' + NODE_ENV + ']');
+
+            if (!!Number(__CONFIG.numberClusters)
+                && Number(__CONFIG.numberClusters) <= clusterCount) {
+                clusterCount = Number(__CONFIG.numberClusters);
+            }
+
+            clusterCount = NUMBER_CLUSTERS || clusterCount;
+
+            if (clusterCount > 1) {
+                LOGGER.debug(`[CPF-VALIDATE] In cluster with: ${clusterCount}`);
+
+                for (let i = 0; i < clusterCount; i += 1) {
+                    cluster.fork();
+                }
+
+                cluster.on('online', worker => LOGGER.info(`[CPF-VALIDATE] Worker ${worker.process.pid} is online`));
+                cluster.on('exit', worker => {
+                    LOGGER.info(`[CPF-VALIDATE] Worker ${worker.id} died :(`);
+                    cluster.fork();
+                });
+            } else {
+                standard();
+            }
+        } else {
+            standard();
+        }
+    } catch (error) {
+        LOGGER.error(error);
+        process.exit();
+    }
+})();
+
+function standard() {
+    const app = require('../src/app');
+    app.set('port', port);
+    const server = http.createServer(app);
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', () => LOGGER.info(`[CPF-VALIDATE] Server listening in port ${port}`));
+}
+
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+    return false;
+}
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    const bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            LOGGER.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            LOGGER.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}

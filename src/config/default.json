@@ -1,0 +1,33 @@
+{
+    "server": {
+        "port": "3000"
+    },
+    "database": {
+        "host": "localhost",
+        "port": "27017",
+        "dbName": "cpf-validate",
+        "user": "api_user",
+        "pass": "api_pwd",
+        "authdb": "admin",
+        "isDebug": true,
+        "max_row": 10000
+    },
+    "log": {
+        "file": {
+            "level": "debug",
+            "json": false,
+            "colorize": false,
+            "maxsize": 5242880,
+            "maxFiles": 5,
+            "prettyPrint": true
+        },
+        "console": {
+            "level": "debug",
+            "json": false,
+            "colorize": true
+        },
+        "directory": "/tmp/cpf-validate/"
+    },
+    "secretKey": "Y3BmLXZhbGlkYXRl",
+    "numberClusters": 4
+}

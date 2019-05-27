@@ -1,0 +1,16 @@
+.history
+.vscode
+node_modules
+.dockerignore
+.editorconfig
+.eslintrc.json
+.git
+.gitignore
+Dockerfile
+README.md
+npm-debug.log
+test
+volumes
+.env
+docker-compose.yml
+gulpfile.js
