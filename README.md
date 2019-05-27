@@ -4,15 +4,15 @@ API para validação de CPF
 
 ![cpf-validate-app](docs/images/image02.png)
 
-Assim que iniciado a aplicação a mesma fica disponível no endereço http://localhost:<PORT>/cpf-validate
+Assim que iniciado a aplicação a mesma fica disponível no endereço http://localhost:3000/cpf-validate
 
 > Porta default é 3000
 
-Para consulta do CPF é necessário está autenticado
+Para consulta do CPF é necessário autenticação
 
 ![cpf-validate-auth](docs/images/image01.png)
 
-> Usuário/Senha de administrador> `admin/adminpwd`
+> Usuário/Senha de administrador: `admin/adminpwd`
 
 ## Para desenvolvimento e testes
 
@@ -71,15 +71,17 @@ Caso a imagem ainda não esteja hospedada
   security:
     authorization: enabled
   ```
-- Acessar mongo: mongo --host <HOSTNAME> --port <PORT> cpf-validate -u '<USER' -p '<PWD>' --authenticationDatabase 'admin'
+- Acessar mongo: mongo --host HOSTNAME --port PORT cpf-validate -u 'USER' -p 'PWD' --authenticationDatabase 'admin'
 - Por padrão é criado um usuário de sistema `api_user` com a senha `user_pwd`
     Esse usuário deve ser configurado no arquivo de configuração (`config/default.json`)
-    `"database": {
+    ```json
+    "database": {
         ...
-        "user": "USUARIO_ROOT",
-        "pass": "SENHA_ROOT"
+        "user": "USER",
+        "pass": "PWD"
         ...
-    }`
+    }
+    ```
 - Por padrão é criado um usuário de api `admin` com a senha `adminpwd` para acesso inicial
 
 ### Testes
