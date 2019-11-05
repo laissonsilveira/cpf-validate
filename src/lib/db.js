@@ -56,6 +56,7 @@ const connectDB = async () => {
 
         (async () => {
             const UsersModel = require('../models/users-model');
+            const StatusModel = require('../models/status-model');
             require('../models/blacklist-model');
 
             await mongoose.connect(_getUri(), {
@@ -65,6 +66,7 @@ const connectDB = async () => {
                 reconnectInterval: 3000
             });
 
+            await StatusModel.update({}, { $set: { totalQuery: 0 } }, { upsert: true });
             const user = await UsersModel.find({ username: 'admin' });
             if (user.length === 0) await UsersModel.create({ name: 'Administrador', username: 'admin', password: 'adminpwd' });
         })();

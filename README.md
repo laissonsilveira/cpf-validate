@@ -14,6 +14,10 @@ Para consulta do CPF é necessário autenticação
 
 > Usuário/Senha de administrador: `admin/adminpwd`
 
+Ao acessar página de suporte (http://localhost:3000/cpf-validate/suporte/) é possível verificar o status do serviço
+
+![cpf-validate-suporte](docs/images/image03.png)
+
 ## Para desenvolvimento e testes
 
 - Instalar dependências: `MONGOMS_VERSION=4.0.4 npm install`
@@ -51,6 +55,8 @@ Caso a imagem ainda não esteja hospedada
     - Database: MongoDB 4.0.4
     - API: Node.js 8.16.0
 
+> Por padrão é criado um usuário de sistema `api_user` com a senha `user_pwd`
+
 ## Build sem Docker
 
 ### Dev
@@ -71,18 +77,22 @@ Caso a imagem ainda não esteja hospedada
   security:
     authorization: enabled
   ```
-- Acessar mongo: mongo --host HOSTNAME --port PORT cpf-validate -u 'USER' -p 'PWD' --authenticationDatabase 'admin'
-- Por padrão é criado um usuário de sistema `api_user` com a senha `user_pwd`
-    Esse usuário deve ser configurado no arquivo de configuração (`config/default.json`)
+- Criar usuário do banco 
+  ```
+  use admin 
+  db.createUser({user:"api_user",pwd:"api_pwd", roles:[{role:"root",db:"admin"}]});
+  ```
+  Esse usuário deve ser configurado no arquivo de configuração (`config/default.json`)
     ```json
     "database": {
         ...
-        "user": "USER",
-        "pass": "PWD"
+        "user": "api_user",
+        "pass": "user_pwd"
         ...
     }
     ```
-- Por padrão é criado um usuário de api `admin` com a senha `adminpwd` para acesso inicial
+- Acessar mongo: `mongo --host HOSTNAME --port PORT cpf-validate -u 'USER' -p 'PWD' --authenticationDatabase 'admin'`
+- Para acesso inicial ao sistema, por padrão é criado um usuário de api `admin` com a senha `adminpwd`
 
 ### Testes
 

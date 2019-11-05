@@ -77,7 +77,7 @@ gulp.task('set-version-api', done => {
 
 gulp.task('make-doc', () => {
     return gulp.src(`${ROUTES_API}/**/*.js`)
-        .pipe(apidoc({ markdown: false, config: `${DIST_DOCS}` }))
+        .pipe(apidoc({ markdown: false, template: DIST_DOCS, config: `${DIST_DOCS}` }))
         .pipe(gulp.dest(DIST_DOCS));
 });
 

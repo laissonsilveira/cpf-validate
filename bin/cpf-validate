@@ -10,7 +10,7 @@ if (!NODE_ENV) process.env.NODE_ENV = 'development';
 
 const LOGGER = require('../src/lib/logger');
 const http = require('http');
-const port = normalizePort(PORT || __CONFIG.server.port || 9090);
+const port = normalizePort(PORT || __CONFIG.server.port || 3000);
 const cluster = require('cluster');
 let clusterCount = require('os').cpus().length;
 

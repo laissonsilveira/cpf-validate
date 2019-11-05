@@ -12,7 +12,7 @@ const Errors = require('./lib/errors');
 const LOGGER = require('./lib/logger');
 const Utils = require('./lib/utils');
 
-const indexRouter = require('./routes/index')(Utils.authenticationIndex);
+const supportRouter = require('./routes/support');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const blacklistRouter = require('./routes/blacklist');
@@ -22,6 +22,7 @@ Utils.configPassport();
 
 app.set('view engine', 'html');
 app.use('/cpf-validate', express.static(join(__dirname, 'public')));
+app.use('/cpf-validate/suporte', express.static(join(__dirname, 'support')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use((req, res, next) => {
@@ -31,10 +32,10 @@ app.use((req, res, next) => {
 });
 
 // Bundle routes
-app.use('/cpf-validate', indexRouter);
 app.use('/cpf-validate/auth', authRouter);
 app.use('/cpf-validate/users', passport.authenticate('jwt', { session: false }), usersRouter);
 app.use('/cpf-validate/blacklist', passport.authenticate('jwt', { session: false }), blacklistRouter);
+app.use('/cpf-validate/suporte', Utils.authenticationIndex, supportRouter);
 LOGGER.info('[APP] Rotas configuradas');
 
 // Config Errors

@@ -1,0 +1,52 @@
+<!doctype html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Laisson R. Silveira">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <title>CPF Validate - Suporte</title>
+    <link href="vendor/css/bootstrap.min.css" rel="stylesheet">
+    <script src="vendor/js/jquery.min.js" type='text/javascript'></script>
+    <script src="vendor/js/angular.min.js" type='text/javascript'></script>
+    <script src="supportCtrl.js" type='text/javascript'></script>
+</head>
+
+<body style="background-color: rgb(220, 220, 220)" ng-app="CPFSupportApp">
+    <div class="container" style="padding-top: 30px" ng-controller="SupportCtrl">
+        <div class="jumbotron">
+            <h2 class="mx-auto">CPF Validate - Status</h2>
+            <hr>
+            <dl class="row" ng-show="status">
+                <dt class="col-sm-3">Total Consulta</dt>
+                <dd class="col-sm-9">{{ status.totalQueryCPF }}</dd>
+
+                <dt class="col-sm-3">Total Blacklist</dt>
+                <dd class="col-sm-9">{{ status.blacklistSize }}</dd>
+
+                <dt class="col-sm-3">PID</dt>
+                <dd class="col-sm-9">{{ status.pid }}</dd>
+
+                <dt class="col-sm-3">Versão Node</dt>
+                <dd class="col-sm-9">{{ status.nodeVersion }}</dd>
+
+                <dt class="col-sm-3">Uptime Servidor</dt>
+                <dd class="col-sm-9">{{ status.uptime }}</dd>
+
+                <dt class="col-sm-3">Mem. RSS</dt>
+                <dd class="col-sm-9">{{ status.memoryUsage.rss }}</dd>
+
+                <dt class="col-sm-3">Mem. Heap Total</dt>
+                <dd class="col-sm-9">{{ status.memoryUsage.heapTotal }}</dd>
+
+                <dt class="col-sm-3">Mem. Heap Usada</dt>
+                <dd class="col-sm-9">{{ status.memoryUsage.heapUsed }}</dd>
+            </dl>
+            <label ng-hide="status" class="mx-auto">Não foi possível recuperar o status do serviço</label>
+        </div>
+    </div>
+</body>
+
+</html>
