@@ -58,12 +58,18 @@ const BlaclistCtrl = require('../controllers/BlacklistCtrl');
 router.get('/', async (req, res, next) => {
     try {
         const { cpf } = req.query;
-        await BlaclistCtrl.validate(cpf);
-        LOGGER.info(`[API-BLACKLIST] Consulting CPF '${cpf}' on blacklist`);
-        const cpfFound = await BlaclistCtrl.findBy(cpf);
-        const status = cpfFound ? 'BLOCK' : 'FREE';
-        LOGGER.info(`[API-BLACKLIST] Status CPF '${cpf}': ${status}`);
-        res.json({ status });
+        if (cpf) {
+            await BlaclistCtrl.validate(cpf);
+            LOGGER.info(`[API-BLACKLIST] Consulting CPF '${cpf}' on blacklist`);
+            const cpfFound = await BlaclistCtrl.findBy(cpf);
+            const status = cpfFound ? 'BLOCK' : 'FREE';
+            LOGGER.info(`[API-BLACKLIST] Status CPF '${cpf}': ${status}`);
+            res.json({ status });
+        } else {
+            LOGGER.info('[API-BLACKLIST] List CPFs blocked');
+            const cpfs = await BlaclistCtrl.findAll();
+            res.json(cpfs);
+        }
     } catch (err) {
         next(err);
     }

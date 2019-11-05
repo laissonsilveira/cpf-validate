@@ -28,5 +28,20 @@
                 </div>
             </div>
         </form>
+        <hr>
+        <div class="table-responsive">
+            <table class="table table-hover table-light">
+                <thead class="table-dark">
+                    <tr>
+                        <th>CPFs Bloqueados</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in cpfs">
+                        <td>{{item.cpf}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

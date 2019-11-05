@@ -15,6 +15,10 @@ class BlaclistCtrl {
         return await BlacklistModel.findOne({ cpf }).lean();
     }
 
+    static async findAll() {
+        return await BlacklistModel.find({ });
+    }
+
     static async save(blacklist) {
         await new BlacklistModel(blacklist).save();
     }

@@ -17,10 +17,12 @@ angular.module('CPFValidateApp')
         $scope.onLogout = () => $AuthService.logout();
 
         $scope.onValidate = cpf => {
+            if (!cpf) return onError({ data: { message: 'O número do CPF não foi informado.' } });
             $BlacklistService.validate(cpf)
                 .then(res => {
                     const { status } = res.data;
                     $scope.status = status;
+                    listBlocklist();
                 })
                 .catch(err => onError(err));
         };
@@ -29,6 +31,7 @@ angular.module('CPFValidateApp')
                 .then(() => {
                     $scope.status = null;
                     notify({ message: 'CPF bloqueado com sucesso', duration: 5000, classes: 'alert-info' });
+                    listBlocklist();
                 })
                 .catch(err => onError(err));
         };
@@ -49,6 +52,7 @@ angular.module('CPFValidateApp')
                                 .then(() => {
                                     scope.status = null;
                                     notify({ message: 'CPF liberado com sucesso', duration: 5000, classes: 'alert-info' });
+                                    listBlocklist();
                                 })
                                 .catch(err => onError(err));
                         }
@@ -61,4 +65,13 @@ angular.module('CPFValidateApp')
             });
         };
 
+        const listBlocklist = () => {
+            $BlacklistService.findAll()
+                .then(cpfs => {
+                    $scope.cpfs = cpfs && cpfs.data || [];
+                })
+                .catch(err => onError(err));
+        };
+
+        listBlocklist();
     });
